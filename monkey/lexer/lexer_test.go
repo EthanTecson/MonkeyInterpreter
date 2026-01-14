@@ -20,7 +20,7 @@ func TestNextToken(t *testing.T) {
 		{token.LBRACE, "{"},
 		{token.RBRACE, "}"},
 		{token.COMMA, ","},
-		{token.COLON, ";"},
+		{token.SEMICOLON, ";"},
 		{token.EOF, ""},
 	}
 
@@ -35,7 +35,7 @@ func TestNextToken(t *testing.T) {
 		}
 
 		if tok.Literal != tt.expectedLiteral {
-			T.Fatalf("test[%d] - literal wrong, expected=%q, got=$q",
+			t.Fatalf("test[%d] - literal wrong, expected=%q, got=%q",
 				i, tt.expectedLiteral, tok.Literal)
 		}
 	}
