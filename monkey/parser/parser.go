@@ -77,6 +77,7 @@ func (p *Parser) parseLetStatement() *ast.LetStatement {
 
 	stmt.Name = &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
 
+	// Checks that '=' follows IDENT
 	if !p.expectPeek(token.ASSIGN) {
 		return nil
 	}
@@ -98,6 +99,7 @@ func (p *Parser) peekTokenIs(t token.TokenType) bool {
 	return p.peekToken.Type == t
 }
 
+// Peeks at next Token to see if it's the expected type
 func (p *Parser) expectPeek(t token.TokenType) bool {
 	if p.peekTokenIs(t) {
 		p.nextToken()
