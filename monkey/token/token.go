@@ -1,3 +1,10 @@
+// a Token are the individual data structures that Monkey works with.
+// For example, variable names, ints, strings, and everything within const
+// are things that Monkey identifies as apart of the Monkey language.
+
+// NOTICE that a token is just Monkey to identify key words and values associated
+// to those key words. With just a Lexer and Tokens, Monkey can make no sense of how to use these tokens
+
 package token
 
 type TokenType string

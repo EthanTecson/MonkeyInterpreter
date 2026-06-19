@@ -1,3 +1,10 @@
+// The AST is what allows us to start to make sense of tokens. The Abstract Syntax Tree (AST)
+// is a data structure that represents the meaning and structure of the code.
+// Main Job: Capture relationships and hierarchy
+
+// The AST takes the flat sequence of tokens from the lexer and organizes them into a tree
+// that represents the grammatical structure of the program — which pieces are statements, which are expressions, and how they nest. This structure is what later gets evaluated.
+
 package ast
 
 import (
@@ -24,6 +31,7 @@ type Program struct {
 	Statements []Statement
 }
 
+// p is the "Method Receiver" in this situation
 func (p *Program) TokenLiteral() string {
 	if len(p.Statements) > 0 {
 		return p.Statements[0].TokenLiteral()
@@ -33,6 +41,11 @@ func (p *Program) TokenLiteral() string {
 }
 
 func (p *Program) String() string {
+	// ! GO TRICK:
+	// * We use a bytes.Buffer so that when we concatenate to a string, we don't
+	// * have to create a new location in memory every time we cat. We would have to
+	// * create a new location in memory everytime because...
+	// ! STRINGS IN GO ARE IMMUTABLE
 	var out bytes.Buffer
 
 	for _, s := range p.Statements {
@@ -42,6 +55,7 @@ func (p *Program) String() string {
 	return out.String()
 }
 
+// ============================================================================
 type ReturnStatement struct {
 	Token token.Token // the 'return' token or token.RETURN
 	ReturnValue Expression
@@ -64,12 +78,14 @@ func (rs *ReturnStatement) String() string {
 	return out.String()
 }
 
+// ============================================================================
 type LetStatement struct {
 	Token token.Token // the token.LET token
 	Name *Identifier
 	Value Expression
 }
 
+// Function Receiver Structure
 func (ls *LetStatement) statementNode() {}
 func (ls *LetStatement) TokenLiteral() string { return ls.Token.Literal }
 
@@ -89,6 +105,7 @@ func (ls *LetStatement) String() string {
 	return out.String()
 }
 
+// ============================================================================
 type ExpressionStatement struct {
 	Token token.Token // the first token of the expression
 	Expression Expression
@@ -104,6 +121,7 @@ func (es *ExpressionStatement) String() string {
 	return ""
 }
 
+// ============================================================================
 type Identifier struct {
 	Token token.Token // the token.IDENT token
 	Value string
@@ -113,6 +131,7 @@ func (i *Identifier) expressionNode() {}
 func (i *Identifier) TokenLiteral() string { return i.Token.Literal } 
 func (i *Identifier) String() string { return i.Value }
 
+// ============================================================================
 type IntegerLiteral struct {
 	Token token.Token
 	Value int64

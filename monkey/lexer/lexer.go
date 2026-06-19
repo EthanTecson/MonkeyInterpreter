@@ -1,17 +1,22 @@
+// The lexer is what allows us to read mokney code and create the correlating
+// tokens for that code. Monkey isn't able to make sense of those tokens and the
+// correlation between them and producing logical steps, but it's what allows Monkey
+// to identify proper and inproper syntax.
 package lexer
 
 import "monkey/token"
 
-// CHALLENGE:
-// Change ch to a rune which allows different values (such as emjois and Unicode)
+// ! CHALLENGE:
+// ! Change ch to a rune which allows different values (such as emjois and Unicode)
 
 type Lexer struct {
 	input        string
 	position     int  // current position in input (points to current char)
-	readPosition int  // current reading position in input (after current char)
+	readPosition int  // current reading position in input (usually right after current char)
 	ch           byte // current char under examination
 }
 
+// Function creates a new Lexer object to start reading in chars
 func New(input string) *Lexer {
 	l := &Lexer{input: input}
 	l.readChar()
@@ -20,6 +25,7 @@ func New(input string) *Lexer {
 
 func (l *Lexer) readChar() {
 	if l.readPosition >= len(l.input) {
+		// when 'ch = 0', that is EOF for Monkey
 		l.ch = 0
 	} else {
 		l.ch = l.input[l.readPosition]
@@ -36,6 +42,7 @@ func (l *Lexer) peekChar() byte {
 	}
 }
 
+// Officially assigns current char/s to a specific Token type
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
