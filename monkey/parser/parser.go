@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"monkey/ast"
 	"monkey/lexer"
 	"monkey/token"
 )
@@ -26,3 +27,7 @@ func (p *Parser) nextToken() {
 	p.curToken = p.peekToken
 	p.peekToken = p.l.NextToken()
 } 
+
+func (p *Parser) ParseProgram() *ast.Program {
+	return nil
+}
