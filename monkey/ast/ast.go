@@ -52,6 +52,11 @@ type Identifier struct {
 	Value string
 }
 
+type IntegerLiteral struct {
+	Token token.Token
+	Value int64
+}
+
 func (p *Program) TokenLiteral() string {
 	if len(p.Statements) > 0 {
 		return p.Statements[0].TokenLiteral()
@@ -70,6 +75,10 @@ func (p *Program) String() string {
 	return out.String()
 }
 
+func (il *IntegerLiteral) expressionNode() {}
+func (il *IntegerLiteral) TokenLiteral() string { return il.Token.Literal}
+func (il *IntegerLiteral) String() string { return il.Token.Literal }
+
 func (es *ExpressionStatement) statementNode() {}
 func (es *ExpressionStatement) TokenLiteral() string { return es.Token.Literal }
 
@@ -84,7 +93,6 @@ func (es *ExpressionStatement) String() string {
 
 func (rs *ReturnStatement) statementNode() {}
 func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal}
-
 func (rs *ReturnStatement) String() string {
 	var out bytes.Buffer
 
